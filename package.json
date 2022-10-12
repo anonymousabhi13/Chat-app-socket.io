@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^4.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -13,6 +14,7 @@
     "http-errors": "~1.6.3",
     "mongoose": "^6.6.0",
     "morgan": "~1.9.1",
+    "say": "^0.16.0",
     "socket.io": "^4.5.2"
   }
 }
