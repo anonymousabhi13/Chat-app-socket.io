@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" href="/stylesheets/index.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="main">
+    <!-- <div id="vnav">
+
+
+    </div> -->
+   
+    <div id="name_overlay">
+      <div id="namebtao">
+        <h3>Username</h3>
+        <input type="text" id="name_input" placeholder="Username">
+        <button id="namebtn">Let's chat </button>
+      </div>
+    </div>
+    <div id="card"></div>
+    <textarea id="inputta"></textarea>
+    <button id="submit_text">Submit</button>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <script>
+      var socket = io();
+      var username = "vinod";
+      var clutter = "";
+
+
+
+      document.querySelector('#submit_text').addEventListener("click", function() {
+        if (document.querySelector("#inputta").value.trim().length) {
+          socket.emit('message', {
+            value: document.querySelector('#inputta').value,
+            name: username
+          });
+        }
+        document.querySelector("#inputta").disabled = false;
+        document.querySelector("#inputta").focus();
+      })
+
+      socket.on('msg', function(data) {
+        document.querySelector('#card').innerHTML += `<div id="mcard">
+          <h5>${data.name}</h5>
+          <p>${data.value}</p>
+        </div>`
+        document.querySelector("#inputta").value = "";
+        document.querySelector('#card').scrollTop = document.querySelector('#card').scrollHeight
+        document.querySelector("#inputta").disabled = false;
+        document.querySelector("#inputta").focus();
+      })
+
+      document.querySelector('#namebtn').addEventListener("click", function() {
+        if (document.querySelector("#name_input").value.trim().length > 0) {
+          username = document.querySelector("#name_input").value;
+          socket.emit('username', username);
+          document.querySelector('#name_overlay').style.display = 'none';
+
+          //   document.querySelector('#vnav').innerHTML += `
+          // <div id="user">
+          //   <div id="userphoto"><img src="https://avatars.dicebear.com/api/identicon/${username}.svg" alt=""></div>
+          //   <p>${username}</p>
+          // </div>`
+
+        }
+      })
+
+      // socket.on('users', function(userarray) {
+      //   clutter = "";
+
+      //   userarray.forEach(function(user) {
+      //     clutter += `
+      //   <div id="user">
+      //     <div id="userphoto"><img src="https://avatars.dicebear.com/api/identicon/${user}.svg" alt=""></div>
+      //     <p>${user.split("-")[0]}</p>
+      //   </div>`
+      //   });
+
+      //   document.querySelector('#vnav').innerHTML = clutter;
+      // })
+
+      // var open = 0;
+
+      // document.querySelector('#vnav').addEventListener('mouseenter', function() {
+      //   document.querySelectorAll('#user p').forEach(function(elem){
+      //     elem.style.display = "initial";
+      //   })
+      //   // open = 1;
+      // });
+
+      // document.querySelector('#vnav').addEventListener('mouseout', function() {
+      //   document.querySelectorAll('#user p').forEach(function(elem) {
+      //     elem.style.display = "none"; 
+      //   })
+      //   // open = 0;
+      // })
+
+      // document.querySelector('#vnav').addEventListener('click', function() {
+      //   document.querySelectorAll('#user p').forEach(function(elem) {
+      //     if(open){
+      //       elem.style.display = "none";
+      //     }
+      //     else{
+      //       elem.style.display = "initail";
+      //     }
+      //   })
+      // });
+    </script>
+  </div>
+</body>
+
+</html>
